@@ -1,9 +1,9 @@
 import { Admin, Resource } from "react-admin";
 import jsonServerProvider from "ra-data-json-server";
 
-import ListTodo from "./admin/ListTodo";
-import EditTodo from "./admin/EditTodo";
-import CreateTodo from "./admin/CreateTodo";
+import ListTodo from "./components/ListTodo";
+import EditTodo from "./components/EditTodo";
+import CreateTodo from "./components/CreateTodo";
 
 function App() {
   return (
