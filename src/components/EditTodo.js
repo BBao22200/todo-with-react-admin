@@ -5,10 +5,13 @@ function EditTodos() {
         <Edit>
             <SimpleForm>
                 <TextInput source="id" />
-                <TextInput source="title" />
-                <BooleanInput source="completed"/>
+                <TextInput source="todo" />
+                <TextInput source="priority" />
+                <TextInput source="category" />
+                <TextInput source="status" />
+                <TextInput source="dueDate" />
             </SimpleForm>
         </Edit>
     )
-} 
+}
 export default EditTodos

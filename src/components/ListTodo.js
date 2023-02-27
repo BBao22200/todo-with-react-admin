@@ -18,8 +18,11 @@ function TodoList() {
     <List filters={Filters}>
       <Datagrid rowClick="edit">
         <TextField source="id" />
-        <TextField source="title" />
-        <BooleanField source="completed" />
+        <TextField source="todo" />
+        <TextField source="priority" />
+        <TextField source="category" />
+        <TextField source="status" />
+        <TextField source="dueDate" />
         <EditButton />
         <DeleteButton />
       </Datagrid>
