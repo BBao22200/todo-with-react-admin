@@ -13,8 +13,9 @@ const dataProvider = {
       .then(data => ({
         data: data,
         total: data.length,
-      }));
+      }))
   },
+
   getOne: (resource, params) =>
     httpClient(`${apiUrl}/${resource}/${params.id}`).then(({ json }) => ({
       data: json,
@@ -30,6 +31,19 @@ const dataProvider = {
       method: 'PUT',
       body: JSON.stringify(params.data),
     }).then(({ json }) => ({ data: json })),
+
+  create: (resource, params) => {
+    try {
+      httpClient(`${apiUrl}/${resource}`, {
+        method: 'POST',
+        body: JSON.stringify(params.data),
+      }).then(({ json }) => ({
+        data: { ...params.data, id: json.id },
+      }))
+    } catch (err) {
+      throw err
+    }
+  }
 };
 
 export default dataProvider;
