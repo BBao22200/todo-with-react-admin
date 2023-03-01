@@ -1,4 +1,5 @@
-import { Edit, SimpleForm, TextInput, BooleanInput } from "react-admin"
+import { Edit, SimpleForm, TextInput, SelectInput, DateInput } from "react-admin"
+import { categories, priorities, statuses } from '../constants';
 
 function EditTodos() {
     return (
@@ -6,10 +7,10 @@ function EditTodos() {
             <SimpleForm>
                 <TextInput source="id" />
                 <TextInput source="todo" />
-                <TextInput source="priority" />
-                <TextInput source="category" />
-                <TextInput source="status" />
-                <TextInput source="dueDate" />
+                <SelectInput source="priority" choices={priorities} />
+                <SelectInput source="category" choices={categories} />
+                <SelectInput source="status" choices={statuses} />
+                <DateInput source="dueDate" />
             </SimpleForm>
         </Edit>
     )

@@ -2,20 +2,21 @@ import {
   List,
   Datagrid,
   TextField,
-  BooleanField,
   EditButton,
   DeleteButton,
   TextInput,
+  SearchInput
 } from "react-admin";
 
 
 const Filters = [
-  <TextInput source="q" label="Search" alwaysOn />,
+  <TextInput label="Search" source="q" alwaysOn />,
+  <TextInput label="todos" source="todo" defaultValue="Hello, World!" />,
 ];
 
 function TodoList() {
   return (
-    <List filters={Filters}>
+    <List filters={Filters} sort={{ field: 'id', order: 'ASC' }}>
       <Datagrid rowClick="edit">
         <TextField source="id" />
         <TextField source="todo" />

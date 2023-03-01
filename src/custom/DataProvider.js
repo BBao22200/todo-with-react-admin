@@ -1,49 +1,74 @@
-import { fetchUtils } from "react-admin";
-import { stringify } from "query-string";
+import axios from "axios";
 
 const apiUrl = "http://localhost:3000";
 
-const httpClient = fetchUtils.fetchJson;
-
-
 const dataProvider = {
-  getList: (resource, params) => {
-    return fetch(`${apiUrl}/${resource}`)
-      .then(response => response.json())
-      .then(data => ({
-        data: data,
-        total: data.length,
-      }))
+  getList: async (resource, params) => {
+    try {
+      const response = await axios.get(`${apiUrl}/${resource}`);
+      return {
+        data: response.data,
+        total: response.data.length,
+      };
+    } catch (err) {
+      console.log(err);
+      throw new Error('fetch request failed');
+    }
   },
 
-  getOne: (resource, params) =>
-    httpClient(`${apiUrl}/${resource}/${params.id}`).then(({ json }) => ({
-      data: json,
-    })),
-
-  delete: (resource, params) =>
-    httpClient(`${apiUrl}/${resource}/${params.id}`, {
-      method: 'DELETE',
-    }).then(({ json }) => ({ data: json })),
-
-  update: (resource, params) =>
-    httpClient(`${apiUrl}/${resource}/${params.id}`, {
-      method: 'PUT',
-      body: JSON.stringify(params.data),
-    }).then(({ json }) => ({ data: json })),
-
-  create: (resource, params) => {
+  getOne: async (resource, params) => {
     try {
-      httpClient(`${apiUrl}/${resource}`, {
-        method: 'POST',
-        body: JSON.stringify(params.data),
-      }).then(({ json }) => ({
-        data: { ...params.data, id: json.id },
-      }))
+      const response = await axios.get(`${apiUrl}/${resource}/${params.id}`);
+      return { data: response.data };
     } catch (err) {
-      throw err
+      console.log(err);
+      throw new Error('fetch request failed');
+    }
+  },
+
+  delete: async (resource, params) => {
+    try {
+      const response = await axios.delete(`${apiUrl}/${resource}/${params.id}`);
+      return { data: response.data };
+    } catch (err) {
+      console.log(err);
+      throw new Error('delete request failed');
+    }
+  },
+
+  update: async (resource, params) => {
+    try {
+      const response = await axios.put(`${apiUrl}/${resource}/${params.id}`, params.data);
+      return { data: { ...response.data, id: response.id } };
+    } catch (err) {
+      console.log(err);
+      throw new Error('update request failed');
+    }
+  },
+
+  create: async (resource, params) => {
+    try {
+      const response = await axios.post(`${apiUrl}/${resource}`, params.data);
+      return { data: { ...response.data, id: response.id } };
+    } catch (err) {
+      console.log(err);
+      throw new Error('create request failed');
+    }
+  },
+
+  deleteMany: async (resource, params) => {
+    try {
+      const deletePromises = params.ids.map(id =>
+        axios.delete(`${apiUrl}/${resource}/${id}`)
+      );
+      await Promise.all(deletePromises);
+      return { data: params.ids };
+    } catch (err) {
+      console.log(err);
+      throw new Error('deleteMany request failed');
     }
   }
+
 };
 
 export default dataProvider;

@@ -1,17 +1,19 @@
-import { Edit, SimpleForm, TextInput, BooleanInput } from "react-admin"
+import { SimpleForm, TextInput, Create, SelectInput, DateInput } from "react-admin"
+import { categories, priorities, statuses } from '../constants';
+
 
 function CreateTodos() {
     return (
-        <Edit>
+        <Create>
             <SimpleForm>
                 <TextInput source="id" />
                 <TextInput source="todo" />
-                <TextInput source="priority" />
-                <TextInput source="category" />
-                <TextInput source="status" />
-                <TextInput source="dueDate" />
+                <SelectInput source="priority" choices={priorities} />
+                <SelectInput source="category" choices={categories} />
+                <SelectInput source="status" choices={statuses} />
+                <DateInput source="dueDate" />
             </SimpleForm>
-        </Edit>
+        </Create>
     )
 }
 export default CreateTodos
